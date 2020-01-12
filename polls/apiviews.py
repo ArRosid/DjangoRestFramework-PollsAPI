@@ -25,3 +25,10 @@ class PollList(generics.ListCreateAPIView):
 class PollDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Poll.objects.all()
     serializer_class = serializers.PoolSerializer
+
+class ChoiceList(generics.ListCreateAPIView):
+    queryset = models.Choice.objects.all()
+    serializer_class = serializers.ChoiceSerializer
+
+class CreateVote(generics.CreateAPIView):
+    serializer_class = serializers.VoteSerializer
