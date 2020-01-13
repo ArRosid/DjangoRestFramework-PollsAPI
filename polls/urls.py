@@ -16,8 +16,8 @@ urlpatterns = [
     path("polls/<int:pk>/choices/", apiviews.ChoiceList.as_view(), name="choice_list"),
     path("polls/<int:poll_pk>/choices/<int:choice_pk>/vote/", apiviews.CreateVote.as_view(), name="create_vote"),
     path("users/", apiviews.UserCreate.as_view(), name="user_create"),
-    path("login/", apiviews.LoginView.as_view(), name="login"),
-    # path("login/", views.obtain_auth_token, name="login"),
+    # path("login/", apiviews.LoginView.as_view(), name="login"),
+    path("login/", views.obtain_auth_token, name="login"),
     path('docs/', include_docs_urls(title="Polls API", permission_classes=())),
 ] 
 
