@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, status
+from rest_framework import generics, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -18,11 +18,15 @@ from . import models, serializers
 #         data = serializers.PoolSerializer(poll).data
 #         return Response(data)
 
-class PollList(generics.ListCreateAPIView):
-    queryset = models.Poll.objects.all()
-    serializer_class = serializers.PoolSerializer
+# class PollList(generics.ListCreateAPIView):
+#     queryset = models.Poll.objects.all()
+#     serializer_class = serializers.PoolSerializer
 
-class PollDetail(generics.RetrieveUpdateDestroyAPIView):
+# class PollDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = models.Poll.objects.all()
+#     serializer_class = serializers.PoolSerializer
+
+class PollViewSet(viewsets.ModelViewSet):
     queryset = models.Poll.objects.all()
     serializer_class = serializers.PoolSerializer
 
