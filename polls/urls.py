@@ -18,7 +18,7 @@ urlpatterns = [
     path("users/", apiviews.UserCreate.as_view(), name="user_create"),
     path("login/", apiviews.LoginView.as_view(), name="login"),
     # path("login/", views.obtain_auth_token, name="login"),
-    path('docs/', include_docs_urls(title="Polls API")),
+    path('docs/', include_docs_urls(title="Polls API", permission_classes=())),
 ] 
 
 urlpatterns += router.urls
