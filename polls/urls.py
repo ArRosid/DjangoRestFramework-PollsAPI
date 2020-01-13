@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
+from rest_framework.documentation import include_docs_urls
 
 from . import apiviews
 
@@ -17,6 +18,7 @@ urlpatterns = [
     path("users/", apiviews.UserCreate.as_view(), name="user_create"),
     path("login/", apiviews.LoginView.as_view(), name="login"),
     # path("login/", views.obtain_auth_token, name="login"),
+    path('docs/', include_docs_urls(title="Polls API")),
 ] 
 
 urlpatterns += router.urls
