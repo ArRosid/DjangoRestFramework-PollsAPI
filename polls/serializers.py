@@ -18,6 +18,7 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
 class PoolSerializer(serializers.ModelSerializer):
     choices = ChoiceSerializer(many=True, read_only=True)
+    created_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = models.Poll

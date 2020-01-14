@@ -38,6 +38,9 @@ class PollViewSet(viewsets.ModelViewSet):
             raise PermissionDenied("You can not delete this poll!")
         return super().destroy(request, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 # class ChoiceList(generics.ListCreateAPIView):
 #     queryset = models.Choice.objects.all()
 #     serializer_class = serializers.ChoiceSerializer
