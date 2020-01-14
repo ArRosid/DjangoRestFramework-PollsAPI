@@ -64,14 +64,24 @@ class CreateVote(APIView):
     serializer_class = serializers.VoteSerializer
 
     def post(self, request, poll_pk, choice_pk):
-        voted_by = request.data.get("voted_by")
-        data = {"choice": choice_pk, "poll": poll_pk, "voted_by":voted_by}
-        serializer = serializers.VoteSerializer(data=data)
-        if serializer.is_valid():
-            vote = serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        voted_by = self.request.user.id
+        
+        try:
+            poll = models.Poll.objects.get(pk=poll_pk)
+            choice = models.Choice.objects.get(pk=choice_pk)
+            
+            if choice.poll != poll:
+                return Response({"error_message":"Choices with that poll do not exist"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            data = {"choice": choice_pk, "poll": poll_pk, "voted_by":voted_by}
+            serializer = serializers.VoteSerializer(data=data)
+            if serializer.is_valid():
+                vote = serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({"error_message":"Poll or Choices do not exist!"}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserCreate(generics.CreateAPIView):
     authentication_classes = ()
@@ -90,3 +100,5 @@ class LoginView(APIView):
             return Response({"token": user.auth_token.key})
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+

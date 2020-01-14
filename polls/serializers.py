@@ -7,14 +7,17 @@ from . import models
 class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Vote
-        fields = "__all__"
+        fields = ("voted_by","choice", "poll")
+        extra_kwargs = {"choice": {"write_only": True},
+                        "poll": {"write_only": True}
+                        }
 
 class ChoiceSerializer(serializers.ModelSerializer):
     votes = VoteSerializer(many=True, required=False, read_only=True)
 
     class Meta:
         model = models.Choice
-        fields = ("choice_text","votes")
+        fields = ("id","choice_text","votes")
 
 class PoolSerializer(serializers.ModelSerializer):
     choices = ChoiceSerializer(many=True, read_only=True)
