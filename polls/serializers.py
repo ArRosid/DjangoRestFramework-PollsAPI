@@ -10,11 +10,11 @@ class VoteSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class ChoiceSerializer(serializers.ModelSerializer):
-    votes = VoteSerializer(many=True, required=False)
+    votes = VoteSerializer(many=True, required=False, read_only=True)
 
     class Meta:
         model = models.Choice
-        fields = "__all__"
+        fields = ("choice_text","votes")
 
 class PoolSerializer(serializers.ModelSerializer):
     choices = ChoiceSerializer(many=True, read_only=True)
